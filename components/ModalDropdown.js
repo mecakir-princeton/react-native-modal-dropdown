@@ -1,5 +1,5 @@
 /**
- * Created by sohobloo on 16/9/13.
+ * Created by sohobloo on 16/9/13. Edited by Emre 8/24
  */
 
 'use strict';
@@ -21,6 +21,8 @@ import {
   Modal,
   ActivityIndicator,
 } from 'react-native';
+
+import { Entypo } from '@expo/vector-icons';
 
 const PropTypes = require('prop-types');
 
@@ -77,7 +79,8 @@ export default class ModalDropdown extends Component {
       loading: props.options === null || props.options === undefined,
       showDropdown: false,
       buttonText: props.defaultValue,
-      selectedIndex: props.defaultIndex
+      selectedIndex: props.defaultIndex,
+      btnIcon: (<Entypo name="chevron-down" size={24} color="#445870" />)
     };
   }
 
@@ -122,14 +125,16 @@ export default class ModalDropdown extends Component {
   show() {
     this._updatePosition(() => {
       this.setState({
-        showDropdown: true
+        showDropdown: true,
+        btnIcon: (<Entypo name="chevron-up" size={24} color="#445870" />)
       });
     });
   }
 
   hide() {
     this.setState({
-      showDropdown: false
+      showDropdown: false,
+      btnIcon: (<Entypo name="chevron-down" size={24} color="#445870" />)
     });
   }
 
@@ -161,11 +166,12 @@ export default class ModalDropdown extends Component {
         {
           this.props.children ||
           (
-            <View style={styles.button}>
+            <View style={[styles.button, {width: 250, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}]}>
               <Text style={[styles.buttonText, this.props.textStyle]}
                     numberOfLines={1}>
                 {this.state.buttonText}
               </Text>
+              {this.state.btnIcon}
             </View>
           )
         }
@@ -344,9 +350,9 @@ export default class ModalDropdown extends Component {
       }
     }
     return (
-      <TouchableHighlight {...preservedProps}>
+      <TouchableOpacity {...preservedProps}>
         {row}
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 
